@@ -1,0 +1,11 @@
+api/payloads/MapPayload.class
+api/endpoints/Routes.class
+api/utils/RandomDataGenerator.class
+report/TestNgListeners.class
+report/ExtentReportManager.class
+api/utils/BaseSpecsUtils.class
+report/TestNgListener.class
+api/endpoints/BookStoreEndPoints.class
+api/payloads/RequestBodyBuilder.class
+api/payloads/DataProviders.class
+api/endpoints/UserEndPoints.class
