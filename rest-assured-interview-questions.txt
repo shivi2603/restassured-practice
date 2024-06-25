@@ -1,0 +1,237 @@
+Rest- Assured API Automation Interview Questions for experience.
+
+
+1. What is difference between API and WebService.
+
+	- Web services are a subset of APIs which is used for only web-based communication
+	- APIs are a broad concept and can include various types of interfaces such as libraries, frameworks, and operating systems.
+	- The two primary types of Web Services are SOAP and REST.
+	- APIs can use any communication protocol, whereas Web Services typically use HTTP or HTTPS. 
+
+
+2. What is difference between SOAP & Rest API.
+	
+	- Both are two different architectural styles for designing web services
+	- SOAP is a protocol and uses standards like XML for message format and can be used with HTTP/HTTPS, SOAP can also use other protocols such as SMTP, FTP, etc
+	- REST is an architectural style which leverages standard HTTP methods like GET, POST, PUT, DELETE, etc.
+	- SOAP has a well-defined set of rules and standards whereas REST does not have rules and is more flexible
+	- SOAP message consists of an envelope that includes a header and a body in XML which makes the SOAP messages heavy
+	- REST is stateless, meaning each request from the client to the server must contain all the information needed to understand and process the request
+	- As REST is stateless nature and lightweight message format, REST is generally more scalable and performs better than SOAP
+	- SOAP is more complex due to its strict standards and heavier message format, REST is simpler and easier to use, as It does not require strict standards or extensive setup like SOAP.
+
+
+3. Can you write a sample of API(URL) and JSON.
+
+	GET https://api.example.com/users/12345
+
+	{
+		"id": "12345",
+		"name": "shivani"
+		"email": "abc@email.com"
+	}
+
+
+4. How do you handle Authentication token.
+ 
+ 	- Obtain the Token: first authenticate with the API to obtain a token
+ 	- Store the Token:  Once you receive the token, store it for use in subsequent API requests. 
+	- Include the Token in Requests: The token is typically sent in the headers of your HTTP requests.
+	- Handle Token Expiry: Tokens often have an expiration time. You need to handle token expiry by refreshing the token when it’s about to expire or has expired.
+
+
+5. How many type of Authentication in POSTMAN/ Rest-Assured.
+
+	- No Auth: No authentication is used. Used for APIs that do not require authentication.
+	- Basic Auth: Uses a username and password. The credentials are base64-encoded and sent in the Authorization header.
+	- Bearer Token: Used to send a token in the Authorization header. Typically used with OAuth 2.0 or JWT tokens.
+	- API Key: Sends an API key in the headers or query parameters. You can specify the key’s location (Header or URL).
+	- OAuth2: Supports different grant types such as Authorization Code, Client Credentials, Password Credentials, and Refresh Token
+
+
+6. What is difference between OAuth1.0 and OAuth2.O ,When and where do you use and how. Can you
+write a sample code.
+
+
+7. What is baseURI in RestAssured.
+
+	- In RestAssured, baseURI is a static variable that defines the base part of the URL for the API requests. It helps to avoid repetition and makes the code cleaner and easier to  		maintain by setting a common base URI for all the requests within your tests
+
+
+8. Can you explain RequestSpecification request = RestAssured.given();
+
+	- RequestSpecification is a powerful feature that allows you to define a set of common request parameters, headers, authentication settings, and other configurations that can be reused across multiple requests. The given() method initializes this request specification, which you can then customize as needed for your specific test cases.
+
+
+9. What will be returned type of response.jsonPath().getJsonObject("XYZ");
+
+	- getJsonObject() in RestAssured returns an object representing the JSON element at the specified path (returns requivalent java object of the given json element)
+
+
+10. How do you extract the values of JSON and how do you validate response.
+
+	- Use response.jsonPath().getString("name"); or  response.jsonPath().getInt("id"); to extract the data
+	- Use response.then().statusCode(200); or response.then().body("name", equalTo("John Doe")); to validate the data
+
+
+11. Can you write a code of save the response in a JSON file.
+ 	
+ 	   // Set base URI
+        RestAssured.baseURI = "https://jsonplaceholder.typicode.com";
+
+        // Make a GET request and save the response
+        Response response = given()
+                                .when()
+                                .get("/posts/1")
+                                .then()
+                                .extract()
+                                .response();
+
+        // Convert response body to string
+        String responseBody = response.getBody().asString();
+
+        // Define file path
+        String filePath = "response.json";
+
+        // Write response to file
+        try {
+            Files.write(Paths.get(filePath), responseBody.getBytes());
+            System.out.println("Response saved to: " + filePath);
+        } catch (IOException e) {
+            System.out.println("Error writing response to file: " + e.getMessage());
+        }
+
+12. How do you validate headers of response.
+
+	-         // Set base URI
+        RestAssured.baseURI = "https://jsonplaceholder.typicode.com";
+
+        // Make a GET request and save the response
+        Response response = given()
+                                .when()
+                                .get("/posts/1")
+                                .then()
+                                .extract()
+                                .response();
+
+        // Validate headers
+        String contentTypeHeader = response.getHeader("Content-Type");
+        String serverHeader = response.getHeader("Server");
+
+        // Assert the headers
+        assert contentTypeHeader != null && contentTypeHeader.contains("application/json");
+        assert serverHeader != null && serverHeader.contains("cloudflare");
+
+
+13. What is difference between Headers and Header class.
+
+	- Headers (Collection):
+
+		Represents all HTTP headers in a request or response.
+        Can include multiple headers with different names and values.
+
+	-Header Class:
+
+		Represents an individual HTTP header.
+		Used to construct and manipulate specific headers within HTTP requests or responses.
+
+
+14. What is difference between response.header(“xyz”) and response.headers() methods.
+
+	- response.header(“xyz”) returns value of a single header, if not present ...returns null
+	- response.headers() returns all headers present in the response
+
+
+15. Can you extract all the headers from response at run time.
+
+	- // Set base URI
+        RestAssured.baseURI = "https://jsonplaceholder.typicode.com";
+
+        // Make a GET request and save the response
+        Response response = given()
+                                .when()
+                                .get("/posts/1")
+                                .then()
+                                .extract()
+                                .response();
+
+        // Extract all headers
+        Headers allHeaders = response.headers();
+
+        // Iterate over all headers and print them
+        for (Header header : allHeaders) {
+            System.out.println(header.getName() + ": " + header.getValue());
+        }
+
+
+16. What is JSONObject() , request.header(“xyz”), response.path(“lable”) , response.body().asString() ,
+response.getBody().prettyPrint(); , RestAssured.given().queryParam(“xyz”,”abc”);
+
+
+17. What is difference between request.get(“https//https://lnkd.in/drymuszU) and
+request.request(Method.GET,"/ allcustomers ");
+
+	- request.get("https://example.com"): Directly specifies the full URL
+	- request.request(Method.GET, "/allcustomers"): Uses a relative path with a separately set base URL (baseUri).
+	- request.get("https://example.com"): Doesn't rely on a globally set base URL.
+	- request.request(Method.GET, "/allcustomers"): Utilizes a globally set base URI (RestAssured.baseURI) or per request basis using baseUri()
+
+
+18. What is difference between PUT and Patch . Have you ever used and where.
+
+	- PUT Method
+		Purpose: The PUT method is used to update or replace an existing resource or entity on the server.
+		Payload: When you send a PUT request, you typically send the entire resource with the updated data.
+		Idempotent: PUT requests are idempotent, meaning that making multiple identical PUT requests should have the same effect as a single request.
+		Example: Updating a user's profile information where you send the complete updated user object to the server.
+	- PATCH Method
+		Purpose: The PATCH method is used to apply partial modifications to a resource. It's used when you want to apply only a part of the resource's state.
+		Payload: The PATCH request contains a set of instructions on how to modify the resource, rather than the complete resource representation.
+		Idempotent: PATCH requests are not guaranteed to be idempotent, meaning that multiple identical PATCH requests may have different effects.
+		Example: Updating only the email address or status of a user without modifying other attributes.
+
+
+19. What are status code(2xx ,3xx ,4xx, 5xx) in API.
+
+	- 2XX Success
+		200: OK - The request was successful and the response body contains the requested information.
+		201: Created - The request has been fulfilled, resulting in the creation of a new resource.
+		204: No Content - The server successfully processed the request but does not need to return any content
+	- 3xx Redirects
+		301: Moved Permanently - The requested resource has been permanently moved to a new URL.
+		302: Found (Moved Temporarily) - The requested resource resides temporarily under a different URL.
+		304: Not Modified - Indicates that the resource has not been modified since the version specified by the conditional request headers.
+	- 4xx Client Error
+		400: Bad Request - The server cannot process the request due to a client error (e.g., malformed request syntax, invalid parameters).
+		401: Unauthorized - The request requires user authentication. The authentication credentials sent were missing or incorrect.
+		403: Forbidden - The server understood the request, but refuses to authorize it.
+		404: Not Found - The server cannot find the requested resource.
+	- 5xx Server Error
+		500: Internal Server Error - A generic error message indicating that the server encountered an unexpected condition that prevented it from fulfilling the request.
+		502: Bad Gateway - The server, while acting as a gateway or proxy, received an invalid response from an inbound server.
+		503: Service Unavailable - The server is currently unable to handle the request due to temporary overloading or maintenance of the server.
+
+
+20. How do you print your response in JSON format.
+
+	- RestAssured.baseURI = "https://jsonplaceholder.typicode.com";
+
+        // Send GET request
+        Response response = given().get("/posts/1");
+
+        // Retrieve and print response body as JSON
+        String responseBody = response.getBody().asString();
+        System.out.println("Response Body:");
+        System.out.println(responseBody);
+
+
+21. How do you post body in POST and how many way to post.
+	
+	- String or JSON Body: Use body() with a string or JSON object for raw data or structured JSON.
+	- POJO: Serialize a Java object and use body() with Jackson's ObjectMapper.
+	- Form Parameters: Use formParams() for application/x-www-form-urlencoded data.
+	- Multipart: Use multiPart() for multipart requests, such as file uploads.
+
+
+22. What all are the dependency for Rest-Assured.
+
