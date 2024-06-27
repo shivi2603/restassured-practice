@@ -3,7 +3,7 @@ Rest- Assured API Automation Interview Questions for experience.
 
 1. What is difference between API and WebService.
 
-	- Web services are a subset of APIs which is used for only web-based communication
+	- Web services are a subset of APIs which are used for only web-based communication
 	- APIs are a broad concept and can include various types of interfaces such as libraries, frameworks, and operating systems.
 	- The two primary types of Web Services are SOAP and REST.
 	- APIs can use any communication protocol, whereas Web Services typically use HTTP or HTTPS. 
@@ -51,27 +51,32 @@ Rest- Assured API Automation Interview Questions for experience.
 
 6. What is difference between OAuth1.0 and OAuth2.O ,When and where do you use and how. Can you
 write a sample code.
+given().auth().oauth("consumerkey","consumersecret","accesstoken","tokensecret").when().get("").then().statusCode("201");
+given().auth().oauth2("accesstoken").when().get("").then().statusCode("201");
 
 
 7. What is baseURI in RestAssured.
 
-	- In RestAssured, baseURI is a static variable that defines the base part of the URL for the API requests. It helps to avoid repetition and makes the code cleaner and easier to  		maintain by setting a common base URI for all the requests within your tests
+	- In RestAssured, baseURI is a static variable that defines the base part of the URL for the API requests. It helps to avoid repetition and makes the code cleaner and easier to
+	maintain by setting a common base URI for all the requests within your tests
 
 
 8. Can you explain RequestSpecification request = RestAssured.given();
 
-	- RequestSpecification is a powerful feature that allows you to define a set of common request parameters, headers, authentication settings, and other configurations that can be reused across multiple requests. The given() method initializes this request specification, which you can then customize as needed for your specific test cases.
+	- RequestSpecification is a powerful feature that allows you to define a set of common request parameters, headers, authentication settings, and
+	other configurations that can be reused across multiple requests. The given() method initializes this request specification, which you can then customize as needed for your specific test cases.
 
 
 9. What will be returned type of response.jsonPath().getJsonObject("XYZ");
 
-	- getJsonObject() in RestAssured returns an object representing the JSON element at the specified path (returns requivalent java object of the given json element)
+	- getJsonObject() in RestAssured returns an object representing the JSON element at the specified path (returns equivalent java object of the given json element)
 
 
 10. How do you extract the values of JSON and how do you validate response.
 
 	- Use response.jsonPath().getString("name"); or  response.jsonPath().getInt("id"); to extract the data
 	- Use response.then().statusCode(200); or response.then().body("name", equalTo("John Doe")); to validate the data
+
 
 
 11. Can you write a code of save the response in a JSON file.
@@ -234,4 +239,92 @@ request.request(Method.GET,"/ allcustomers ");
 
 
 22. What all are the dependency for Rest-Assured.
+<groupId>io.rest-assured<groupId/>
+<artifactId>rest-assured<artifactId/>
+<version><version/>
+
+##########################################################################################################################################################################################################3
+################################################################### SELENIUM ####################################################
+
+
+1. WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+wait.until(ExpectedConditions.AlertIsPresent());
+
+2. Implicit wait: waits for sepcified amount of time for element to be present
+driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+
+3. ExplicitWait: waits for specific condition to occur before proceding
+WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+wait.until(ExpectedConditions.AlertIsPresent());
+
+4.FluentWait : defines maximum amount of time to wait for specific condition as well as frequency to check the condition
+Wait<WebDriver> fluentwait= new FluentWait<WebDriver>(driver).
+withTimeout(Duration.ofSeconds()).
+pollingEvery(Duration.ofSeconds(10)).
+ignoring(Exception.class);
+
+
+5. Handling multiple windows
+
+String parent= driver.getWindowHandle();
+WebElement ele= findElement(By.xpath(""));
+ele.click();
+for(String window: driver.getwindowHandles()){
+
+driver.switchTo().window(window);
+}
+assertEquasl(driver.getTitle(), expectedTitle);
+
+driver.switchTo().window(parent);
+
+6. Handling Frames
+
+driver.switchTo().frame(1); ==using index
+
+driver.switchTo().frame(); ==using frame name
+
+Webelement ele= driver.findElement(By.Tagename(""));
+driver.switcTo().frame(ele); ==using webelement
+
+driver.swicthTo().defaultContent(); == switch to main frame
+
+7. Alert alert= driver.swicthTo().alert();
+alert.accept();
+alert.dismiss();
+String text= alert .getText();
+alert.sendKeys("alert");
+
+8. POM = page object model
+pom creates object repository for web elements, which makes it easy for code maintenance, readability, reusability
+
+9. PageFactory: Is a implementation of POM. It defines annotations to initialize webelements and provides concise way to write page objects.
+PageFactory.initElements(driver,PageClass.class);
+
+10.
+
+public Object[][] getData(Map<String,String> data){
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
